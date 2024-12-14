@@ -9,16 +9,15 @@ cargo build
 ```
 
 ```
- ➜  rust-bwt-algorithm git:(main) ✗ ./target/debug/rust-bwt-algorithm -h
-Usage: rust-bwt-algorithm <ALIGNMENT_ARG>
+➜  rust-bwt-algorithm git:(main) ✗ ./target/debug/rust-bwt-algorithm -h
+Usage: rust-bwt-algorithm <BWT_ARG>
 
 Arguments:
-  <ALIGNMENT_ARG>  please provide the path to the alignment file
+  <BWT_ARG>  please provide the path to the fastq file
 
 Options:
   -h, --help     Print help
   -V, --version  Print version
-
 ``` 
 
  Gaurav Sablok
