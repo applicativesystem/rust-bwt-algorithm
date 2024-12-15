@@ -1,7 +1,7 @@
 mod args;
 use args::BWTArgs;
-use std::cmp::Ord;
 use clap::Parser;
+use std::cmp::Ord;
 use std::error::Error;
 use std::fs::File;
 use std::io::{BufRead, BufReader, Write};
@@ -57,12 +57,12 @@ fn bwt_longread(path: &str) -> Result<String, Box<dyn Error>> {
         bwt: String,
     }
 
-    let mut final_bwt_write:Vec<BWTHold> = Vec::new();
+    let mut final_bwt_write: Vec<BWTHold> = Vec::new();
     for i in bwt_capture_seq.iter() {
         let newstr = String::from(i.sequence.clone());
         let addnew = newstr.chars().map(|x| String::from(x)).collect::<Vec<_>>();
-        let mut final_bwt:Vec<_> = Vec::new();
-        let mut add_bwt:Vec<_> = Vec::new();
+        let mut final_bwt: Vec<_> = Vec::new();
+        let mut add_bwt: Vec<_> = Vec::new();
         for i in 0..addnew.len() {
             let mut map_bwt: Vec<_> = Vec::new();
             let front_push = &addnew[0..addnew.len() - i].to_vec().join("");
@@ -73,16 +73,19 @@ fn bwt_longread(path: &str) -> Result<String, Box<dyn Error>> {
         }
         final_bwt.sort();
         add_bwt.push(final_bwt);
-        final_bwt_write.push(BWTHold{
-          id: i.header.clone(),
-          bwt: add_bwt[0].iter().map(|x| &x[x.len()-1..x.len()]).collect::<Vec<_>>().concat(),
+        final_bwt_write.push(BWTHold {
+            id: i.header.clone(),
+            bwt: add_bwt[0]
+                .iter()
+                .map(|x| &x[x.len() - 1..x.len()])
+                .collect::<Vec<_>>()
+                .concat(),
         })
-
     }
 
     let mut bwt_write_long = File::create("string-bwt-indices.txt").expect("file not present");
-    for i in final_bwt_write.iter(){
-      writeln!(bwt_write_long, "{}\t{}\n", i.id, i.bwt).expect("line not present");
+    for i in final_bwt_write.iter() {
+        writeln!(bwt_write_long, "{}\t{}\n", i.id, i.bwt).expect("line not present");
     }
 
     Ok("BWT has been written".to_string())
